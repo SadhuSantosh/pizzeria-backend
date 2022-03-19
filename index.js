@@ -7,11 +7,23 @@ import { adminRouter } from "./Routes/adminRouter.js";
 import {paymentRouter} from "./Routes/paymentRouter.js"
 import {auth} from "./middleware/auth.js";
 import { getPizzaData } from "./helper.js";
-
+import { WebSocketServer } from 'ws';
+import http from 'http';
 
 dotenv.config();
 
 const app = express();
+
+const server=http.createServer(app);
+const wss = new WebSocketServer({ server:server });
+
+wss.on('connection', function connection(ws) {
+    ws.on('message', function message(event) {
+        console.log(event);
+        ws.send(event);
+    });
+});
+
 const MONGO_URL = process.env.MONGO_URL;
 const PORT = process.env.PORT || 9000;
 
@@ -26,15 +38,15 @@ export const client =await createConnection();
 app.use(express.json());
 app.use(cors());
 
-app.listen(PORT, ()=> console.log("App is started on "+ PORT));
+server.listen(PORT, ()=> console.log("App is started on "+ PORT));
 
 app.get("/", (request, response)=>{
-    response.send("Hello Welcome to pizzeria !!");
+    response.send("Hello, Welcome to pizzeria !!");
 })
 
 app.use("/user",userRouter);
 app.use("/admin",adminRouter);
-// app.use("/payment",paymentRouter);
+app.use("/payment",paymentRouter);
 
 app.get("/pizza-data", auth ,async (req,res)=>{
     let data =await getPizzaData();

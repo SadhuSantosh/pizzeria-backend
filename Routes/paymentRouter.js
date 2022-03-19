@@ -11,20 +11,30 @@ const razorpayInstance = new Razorpay({
 router.route("/order")
     .post(auth, async (req, res) => {
         const { amount } = req.body;
-        console.log(req.body);
         try {
-            const response = razorpayInstance.orders.create({
+            const response =await razorpayInstance.orders.create({
                 "amount": +amount * 100,
                 "currency": "INR",
                 "receipt": process.env.RAZORPAY_SECRET_KEY_RECEIPT,
+                "payment_capture":1
             })
-            res.send(response)
+            res.send(response);
         }
         catch (error) {
             console.log(error);
+            res.send({
+                status:"failure",
+                message:"Something went wrong"
+            })
         }
-        res.send(response);
     })
 
+
+    // router.route("/verification")
+    // .post(async (req, res) => {
+    //     const SECRET=process.env.RAZORPAY_WEBHOOK_SECRET;
+    //     res.status(200).send({ status: "ok" });   
+    //  })
+    
 
 export const paymentRouter = router;
