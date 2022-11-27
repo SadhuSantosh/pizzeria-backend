@@ -81,7 +81,7 @@ router.route("/forgot-password")
             ?
             sendMail(user.firstName, email, user.uniqueString, res, "user", "forgotPassword")
             :
-            res.status(400).send({ message: `The user with this email doesn't exists` })
+            res.status(400).send({ message: `The user with this email doesn't exists, please check your email once.` })
     })
 
 router.route("/reset-password/:uniqueId")

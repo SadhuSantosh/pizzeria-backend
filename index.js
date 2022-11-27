@@ -18,9 +18,9 @@ const server=http.createServer(app);
 const wss = new WebSocketServer({ server:server });
 
 wss.on('connection', function connection(ws) {
-    ws.on('message', function message(event) {
-        console.log(event);
-        ws.send(event);
+    ws.on('message', function message(message) {
+        let data= JSON.parse(message);
+        ws.send(JSON.stringify(data));
     });
 });
 

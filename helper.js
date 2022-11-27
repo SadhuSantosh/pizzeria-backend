@@ -73,7 +73,7 @@ const sendMail = (firstName, email, uniqueString, res, usertype, emailType) => {
          <br/><br/>
          We are happy that you signed up for Pizzeria. To start exploring the Pizzeria site, please confirm your email address.
          <br/><br/>
-         <a href="http://localhost:3000/${usertype}/verification/${uniqueString}" style="
+         <a href="https://pizzzeria1.netlify.app/${usertype}/verification/${uniqueString}" style="
            background-color:teal;
            color: white;
            padding: 10px 20px;
@@ -121,7 +121,7 @@ const sendMail = (firstName, email, uniqueString, res, usertype, emailType) => {
             ?
              res.send({ message: `A verification link has sent to ${email}, please check your mail and verify for registration.` })
             :
-             res.send({message: `A password reset link has sent to ${email}.`})
+             res.send({message: `Success. A password reset link has sent to ${email}. Please check your inbox/updates.`})
         }
     });
 }
